@@ -1,0 +1,33 @@
+{%extends 'search.html' %}
+
+{% block content %}
+<br/>
+<h2>Search Results</h2>
+<table id="resultsTable">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Year</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Populate this area dynamically with search results -->
+        <tr>
+            <td>Book 1</td>
+            <td>Author 1</td>
+            <td>ISBN 1</td>
+            <td>Year 1</td>
+        </tr>
+        <tr>
+            <td>Book 2</td>
+            <td>Author 2</td>
+            <td>ISBN 2</td>
+            <td>Year 2</td>
+        </tr>
+        <!-- Add more rows for additional search results -->
+    </tbody>
+</table>
+{% endblock %}
+
