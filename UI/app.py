@@ -1,3 +1,8 @@
+# for some reason database import on line 7 wasnt working, added these to fix -Mayuran
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from flask import Flask, render_template, request
 from database import engine, SessionLocal, User, Book, Reservation, Borrowing, Recommendation, DigitalMedia, DigitalBorrowing
 from sqlalchemy.orm import sessionmaker
@@ -28,7 +33,7 @@ def search():
     return render_template("search.html")
 
 @app.route('/searchResults', methods=['POST'])
-def search_results():
+def searchResults():
     # Assuming you want to retrieve data from the database here
     # Create a session
     session = Session()
@@ -40,7 +45,7 @@ def search_results():
     session.close()
     
     # Pass fetched data to the template
-    return render_template("searchResults.html", users=users)
+    return render_template("searchResults.html" , users=users)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
