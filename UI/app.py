@@ -43,6 +43,19 @@ def login():
 def register():
     return render_template("register.html")
 
+
+@app.route('/return')
+def return_items():
+    return render_template("return.html")
+
+@app.route('/borrow')
+def borrow_items():
+    
+    session = Session()
+    books = session.query(Book).filter(Book.available_copies > 0).all()
+    session.close()
+    return render_template("borrow.html", books=books)
+
 @app.route('/searchResults', methods=['POST'])
 def searchResults():
     # Assuming you want to retrieve data from the database here
