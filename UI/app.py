@@ -1,9 +1,12 @@
 # for some reason database import on line 7 wasnt working, added these to fix -Mayuran
 import sys
 import os
+
+from sqlalchemy import text
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from database import engine, SessionLocal, User, Book, Reservation, Borrowing, Recommendation, DigitalMedia, DigitalBorrowing
 from sqlalchemy.orm import sessionmaker
 #import pymysql #CAN DELETE LATER: added this to install this library in my environment in order to get database import working (in case Mayuran's fix may not work for you) - Anthony
@@ -38,6 +41,17 @@ def search():
 @app.route('/login')
 def login():
     return render_template("login.html")
+
+def get_user_data(username):
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT * FROM Users WHERE username =" + str(username)))
+        return result
+@app.route('/login/submit')
+def show_user():
+    data = request.args
+    #user_data = get_user_data(username)
+    return jsonify(data)
+
 
 @app.route('/register')
 def register():
