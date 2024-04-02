@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return Items</title>
+</head>
+<body>
+    <h1>Return Items</h1>
+    
+    <!-- Display Borrowed Items -->
+    <h2>Your Borrowed Items</h2>
+    <form action="/return" method="post">
+        {% for item in borrowed_items %}
+            <label>
+                <input type="checkbox" name="item_id" value="{{ item.id }}"> {{ item.title }} - {{ item.type }}
+            </label><br>
+        {% endfor %}
+        
+        <button type="submit">Return Selected Items</button>
+    </form>
+    
+    {% if return_message %}
+        <p>{{ return_message }}</p>
+    {% endif %}
+</body>
+</html>

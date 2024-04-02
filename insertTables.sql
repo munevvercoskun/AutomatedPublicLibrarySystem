@@ -39,3 +39,21 @@ INSERT INTO DigitalBorrowings (digital_borrowing_id, user_id, media_id, borrow_d
 VALUES
 (1, 1, 1, '2024-03-10', '2024-03-20', 'On Loan'),
 (2, 2, 2, '2024-03-12', '2024-03-18', 'Returned');
+
+-- Insert data into CDs table
+INSERT INTO CDs (cd_id, title, artist, release_year, available_copies, total_copies) VALUES
+(1, 'Thriller', 'Michael Jackson', 1982, 5, 10),
+(2, 'Back in Black', 'AC/DC', 1980, 3, 8),
+(3, 'The Dark Side of the Moon', 'Pink Floyd', 1973, 6, 12);
+
+-- Insert data into DVDs table
+INSERT INTO DVDs (dvd_id, title, director, release_year, available_copies, total_copies) VALUES
+(1, 'The Godfather', 'Francis Ford Coppola', 1972, 7, 10),
+(2, 'The Shawshank Redemption', 'Frank Darabont', 1994, 4, 6),
+(3, 'Pulp Fiction', 'Quentin Tarantino', 1994, 6, 8);
+
+-- Insert data into Magazines table
+INSERT INTO Magazines (magazine_id, title, publisher, publication_year, available_copies, total_copies) VALUES
+(1, 'National Geographic', 'National Geographic Society', 1888, 8, 10),
+(2, 'Time', 'Time USA, LLC', 1923, 5, 8),
+(3, 'Vogue', 'Condé Nast', 1892, 6, 10);
