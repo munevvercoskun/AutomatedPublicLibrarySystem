@@ -7,6 +7,8 @@ from flask import Flask, render_template, request
 from database import engine, SessionLocal, User, Book, Reservation, Borrowing, Recommendation, DigitalMedia, DigitalBorrowing
 from sqlalchemy.orm import sessionmaker
 #import pymysql #CAN DELETE LATER: added this to install this library in my environment in order to get database import working (in case Mayuran's fix may not work for you) - Anthony
+import requests
+
 
 app = Flask(__name__)
 
