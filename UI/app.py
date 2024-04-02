@@ -6,6 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from flask import Flask, render_template, request
 from database import engine, SessionLocal, User, Book, Reservation, Borrowing, Recommendation, DigitalMedia, DigitalBorrowing
 from sqlalchemy.orm import sessionmaker
+#import pymysql #CAN DELETE LATER: added this to install this library in my environment in order to get database import working (in case Mayuran's fix may not work for you) - Anthony
 
 app = Flask(__name__)
 
@@ -31,6 +32,14 @@ def right_sidebar():
 @app.route('/search')
 def search():
     return render_template("search.html")
+
+@app.route('/login')
+def login():
+    return render_template("login.html")
+
+@app.route('/register')
+def register():
+    return render_template("register.html")
 
 @app.route('/searchResults', methods=['POST'])
 def searchResults():
