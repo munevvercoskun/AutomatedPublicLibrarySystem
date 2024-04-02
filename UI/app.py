@@ -80,7 +80,6 @@ def borrow_items():
 
 @app.route('/searchResults', methods=['POST'])
 def searchResults():
-    # Assuming you want to retrieve data from the database here
     # Create a session
     session = Session()
     
