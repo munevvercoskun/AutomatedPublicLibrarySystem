@@ -104,4 +104,32 @@ class DigitalBorrowing(Base):
 
     user = relationship("User", back_populates="digital_borrowings")
     media = relationship("DigitalMedia", back_populates="digital_borrowings")
+class CDs(Base):
+    __tablename__ = 'CDs'
 
+    cd_id = Column(Integer, primary_key=True)
+    title = Column(String(255))
+    artist = Column(String(255))
+    release_year = Column(Integer)
+    available_copies = Column(Integer)
+    total_copies = Column(Integer)
+
+class DVDs(Base):
+    __tablename__ = 'DVDs'
+
+    dvd_id = Column(Integer, primary_key=True)
+    title = Column(String(255))
+    director = Column(String(255))
+    release_year = Column(Integer)
+    available_copies = Column(Integer)
+    total_copies = Column(Integer)
+
+class Magazines(Base):
+    __tablename__ = 'Magazines'
+
+    magazine_id = Column(Integer, primary_key=True)
+    title = Column(String(255))
+    publisher = Column(String(255))
+    publication_year = Column(Integer)
+    available_copies = Column(Integer)
+    total_copies = Column(Integer)
