@@ -1,6 +1,9 @@
 # for some reason database import on line 7 wasnt working, added these to fix -Mayuran
 import sys
 import os
+
+from sqlalchemy import text
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask import Flask, render_template, request, session, redirect, url_for
@@ -41,11 +44,11 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        
+
         session = Session()
         user = session.query(User).filter_by(username=username, password=password).first()
         session.close()
-        
+
         if user:
             session['user_id'] = user.user_id
             return redirect(url_for('index'))
@@ -54,6 +57,17 @@ def login():
     else:
         return render_template('login.html')
 
+def get_user_data(username):
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT * FROM Users WHERE username =" + str(username)))
+        return result
+@app.route('/login/submit')
+def show_user():
+    data = request.args
+    #user_data = get_user_data(username)
+    return jsonify(data)
+
+
 @app.route('/register')
 def register():
     return render_template("register.html")
@@ -61,7 +75,7 @@ def register():
 
 @app.route('/return')
 def return_items():
-    user_id = 1  
+    user_id = 1
     session = Session()
     borrowed_items = session.query(Borrowing).filter_by(user_id=user_id).all()
     session.close()
@@ -69,7 +83,7 @@ def return_items():
 
 @app.route('/borrow')
 def borrow_items():
-    
+
     session = Session()
     books = session.query(Book).all()
     cds = session.query(CDs).all()
@@ -80,6 +94,7 @@ def borrow_items():
 
 @app.route('/searchResults', methods=['POST'])
 def searchResults():
+    # Assuming you want to retrieve data from the database here
     # Create a session
     session = Session()
     
