@@ -6,7 +6,7 @@ from sqlalchemy import text
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for
 from database import engine, SessionLocal, User, Book, Reservation, Borrowing, Recommendation, DigitalMedia, DigitalBorrowing, CDs, DVDs, Magazines
 from sqlalchemy.orm import sessionmaker
 #import pymysql #CAN DELETE LATER: added this to install this library in my environment in order to get database import working (in case Mayuran's fix may not work for you) - Anthony
@@ -16,6 +16,7 @@ import requests
 app = Flask(__name__)
 app.secret_key = 'coe892CloudComputing'
 Session = sessionmaker(bind=engine)
+
 
 @app.route('/')
 def index():
