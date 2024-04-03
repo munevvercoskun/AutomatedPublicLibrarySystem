@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://coe892:PublicLibrarySystem...@coe892:1433/AutomatedPublicLibrary"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://coe892:PublicLibrarySystem...@automatedpubliclibrarysystem.database.windows.net/AutomatedPublicLibrary"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={}, echo=True
