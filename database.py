@@ -19,7 +19,7 @@ AZURE_SQL_CONNECTION_STRING='''Driver={ODBC Driver 18 for SQL Server};
                               Connection Timeout=30'''
 conn = pyodbc.connect(AZURE_SQL_CONNECTION_STRING)
 cursor = conn.cursor()
-
+# user cursor.execute("SQL Query") to query the database
 
 Base = declarative_base()
 
