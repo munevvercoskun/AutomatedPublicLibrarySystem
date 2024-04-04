@@ -26,6 +26,7 @@ CREATE TABLE Borrowings (
     borrowing_id INT PRIMARY KEY,
     user_id INT,
     book_id INT,
+    returned BOOLEAN=True,
     borrow_date DATE,
     return_date DATE,
     status VARCHAR(50),

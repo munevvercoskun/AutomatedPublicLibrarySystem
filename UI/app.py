@@ -24,6 +24,8 @@ def index():
     available_cds = session.query(CDs).all()
     available_dvds = session.query(DVDs).all()
     available_magazines = session.query(Magazines).all()
+    returned_items = session.query(Borrowings).filter(Borrowings.returned == True).all()
+
 
     if 'user_id' in session:
         user_id = session['user_id']
@@ -31,11 +33,11 @@ def index():
         session.close()
         return render_template("index.html", borrowed_items=borrowed_items, available_books=available_books,
                                available_cds=available_cds, available_dvds=available_dvds,
-                               available_magazines=available_magazines)
+                               available_magazines=available_magazines, returned_items=returned_items)
     else:
         session.close()
         return render_template("index.html", available_books=available_books, available_cds=available_cds,
-                               available_dvds=available_dvds, available_magazines=available_magazines)
+                               available_dvds=available_dvds, available_magazines=available_magazines, returned_items=returned_items)
 
 @app.route('/left-sidebar')
 def left_sidebar():

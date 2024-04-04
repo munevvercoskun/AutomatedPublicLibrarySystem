@@ -121,53 +121,76 @@
 								<div class="row">
 									<div class="col-8 col-12-medium">
 
-										<!-- Article list -->
+										
 											<section class="box article-list">
-												<h2 class="icon fa-file-alt">Recent Posts</h2>
-
-												<!-- Excerpt -->
-													<article class="box excerpt">
-														<a href="#" class="image left"><img src="../static/images/pic04.jpg" alt="" /></a>
-														<div>
-															<header>
-																<span class="date">July 24</span>
-																<h3><a href="#">Repairing a hyperspace window</a></h3>
-															</header>
-															<p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus
-															semper mod quisturpis nisi consequat etiam lorem. Phasellus quam turpis,
-															feugiat et sit amet ornare in, hendrerit in lectus semper mod quis eget mi dolore.</p>
-														</div>
-													</article>
-
-												<!-- Excerpt -->
-													<article class="box excerpt">
-														<a href="#" class="image left"><img src="../static/images/pic05.jpg" alt="" /></a>
-														<div>
-															<header>
-																<span class="date">July 18</span>
-																<h3><a href="#">Adventuring with a knee injury</a></h3>
-															</header>
-															<p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus
-															semper mod quisturpis nisi consequat etiam lorem. Phasellus quam turpis,
-															feugiat et sit amet ornare in, hendrerit in lectus semper mod quis eget mi dolore.</p>
-														</div>
-													</article>
-
-												<!-- Excerpt -->
-													<article class="box excerpt">
-														<a href="#" class="image left"><img src="../static/images/pic06.jpg" alt="" /></a>
-														<div>
-															<header>
-																<span class="date">July 14</span>
-																<h3><a href="#">Preparing for Y2K38</a></h3>
-															</header>
-															<p>Phasellus quam turpis, feugiat sit amet ornare in, hendrerit in lectus
-															semper mod quisturpis nisi consequat etiam lorem. Phasellus quam turpis,
-															feugiat et sit amet ornare in, hendrerit in lectus semper mod quis eget mi dolore.</p>
-														</div>
-													</article>
-
+												<h2 class="icon fa-file-alt">Available Items</h2>
+												<div class="row">
+													{% for book in available_books %}
+													<div class="col-6">
+														<h3>{{ book.title }}</h3>
+                                    				    <p>Author: {{ book.author }}</p>
+                                    				    <p>Genre: {{ book.genre }}</p>
+                                    				    <p>Available Copies: {{ book.available_copies }}</p>
+                                    				</div>
+                                    				{% endfor %}
+												</div>
 											</section>
+											<!-- CDs -->
+											<section class="box article-list">
+												<h2 class="icon fa-file-alt">Available CDs</h2>
+												<div class="row">
+													{% for cd in available_cds %}
+													<div class="col-6">
+														<h3>{{ cd.title }}</h3>
+														<p>Artist: {{ cd.artist }}</p>
+														<p>Release Year: {{ cd.release_year }}</p>
+														<p>Available Copies: {{ cd.available_copies }}</p>
+													</div>
+													{% endfor %}
+												</div>
+											</section>
+		
+											<!-- DVDs -->
+											<section class="box article-list">
+												<h2 class="icon fa-file-alt">Available DVDs</h2>
+												<div class="row">
+													{% for dvd in available_dvds %}
+													<div class="col-6">
+														<h3>{{ dvd.title }}</h3>
+														<p>Director: {{ dvd.director }}</p>
+														<p>Release Year: {{ dvd.release_year }}</p>
+														<p>Available Copies: {{ dvd.available_copies }}</p>
+													</div>
+													{% endfor %}
+												</div>
+											</section>
+		
+											<!-- Magazines -->
+											<section class="box article-list">
+												<h2 class="icon fa-file-alt">Available Magazines</h2>
+												<div class="row">
+													{% for magazine in available_magazines %}
+													<div class="col-6">
+														<h3>{{ magazine.title }}</h3>
+														<p>Publisher: {{ magazine.publisher }}</p>
+														<p>Publication Year: {{ magazine.publication_year }}</p>
+														<p>Available Copies: {{ magazine.available_copies }}</p>
+													</div>
+													{% endfor %}
+												</div>
+											</section>
+											
+											<section class="box article-list">
+												<h2 class="icon fa-file-alt">Returned Items</h2>
+												<div class="row">
+													{% for item in returned_items %}
+													<div class="col-6">
+														<h3>{{ item.title }}</h3>
+														<p>Returned on: {{ item.return_date }}</p>
+													</div>
+													{% endfor %}
+												</div>
+											</section>	
 									</div>
 									<div class="col-4 col-12-medium">
 
