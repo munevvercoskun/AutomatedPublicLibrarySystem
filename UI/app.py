@@ -3,11 +3,12 @@ import sys
 import os
 
 from sqlalchemy import text
+import pymssql
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
-from database import engine, SessionLocal, User, Book, Borrowing, CDs, DVDs, Magazines
+from database import engine, SessionLocal, User, Book, Borrowing, CDs, DVDs, Magazines, cursor
 from sqlalchemy.orm import sessionmaker
 #import pymysql #CAN DELETE LATER: added this to install this library in my environment in order to get database import working (in case Mayuran's fix may not work for you) - Anthony
 import requests
@@ -69,17 +70,63 @@ def get_user_data(username):
     with engine.connect() as conn:
         result = conn.execute(text("SELECT * FROM Users WHERE username =" + str(username)))
         return result
-@app.route('/login/submit', methods = ['post'])
+
+# convert tuples returned from queries into string
+def convertTuple(tup):
+    # initialize an empty string
+    string = ''
+    for item in tup:
+        string = string + str(item[0])
+    return string
+
+@app.route('/login/submit', methods=['post'])
 def show_user():
     data = request.form
-    username=data['username']
-    user_data = get_user_data(username)
-    return jsonify(user_data)
+    username = data['username']
+    password = data['password']
+    SQL_Login_Query = '''
+                        SELECT password
+                        FROM Users
+                        WHERE username = '{username}'
+                      '''.format(username=username)
+    result = cursor.execute(SQL_Login_Query)
+    string_result = convertTuple(result)
+    if string_result == password:
+        return render_template('login.html') # TODO: figure out what to do on successful login (maybe just go back to an index.html copy that has buttons for borrow)
+    else:
+        return render_template('login_failed.html')
 
 
 @app.route('/register')
 def register():
     return render_template("register.html")
+
+
+def get_max_user_id():
+    SQL_Login_Query = '''
+                        SELECT MAX(user_id)
+                        FROM Users
+                      '''
+    result = cursor.execute(SQL_Login_Query)
+    string_result = convertTuple(result)
+    return int(string_result)
+@app.route('/register/submit', methods=['post'])
+def submit_register():
+    data = request.form
+    user_id = get_max_user_id() + 1
+    username = data['username']
+    password = data['password']
+    email = data['email']
+    address = data['address']
+    fullname = data['fullname']
+    phonenumber = data['phonenumber']
+    SQL_Register_Query = f'''
+                            INSERT INTO Users (user_id, username, password, email, full_name, address, phone_number)
+                            VALUES ('{user_id}', '{username}', '{password}', '{email}', '{fullname}', '{address}', '{phonenumber}')
+                         '''
+    return SQL_Register_Query
+    #cursor.execute(SQL_Register_Query)
+
 
 
 @app.route('/return')
@@ -103,6 +150,7 @@ def borrow_items():
 
 @app.route('/searchResults', methods=['POST'])
 def searchResults():
+    # Assuming you want to retrieve data from the database here
     # Create a session
     session = Session()
     
