@@ -27,32 +27,58 @@
         }
 
         #username {
+            horizontal-align: middle;
             margin-right: 10px;
             width: 100%;
         }
         #password {
+            horizontal-align: middle;
             margin-right: 10px;
             width: 100%;
         }
+        .row{
+            display: flex;
+        }
+        .column{
+            flex: 50%;
+            padding: 10px;
+
     </style>
 </head>
-
 <body>
 <div>
 {% include 'Banner.html' %}
         <div id="loginContainer">
             <h1 style="color: white; font-size:5vw">Register</h1>
             <p style="color: white; font-size:1vw">Please fill in your credentials to register.</p>
-            <form method="POST" action="">
-                <label style="color: white;">Username</label>
-                <input type="text" id="username" placeholder="Input Username...">
-				<br>
-                <label style="color: white;">Password</label>
-                <input type="text" id="password" placeholder="Input Password...">
-				<br>
-
-				<input type="submit" name="Login">
-
+            <form action="/register/submit" method="post">
+                <br>
+                <div class="row">
+                    <div class="column">
+                        <label style="color: white;">Username</label>
+                        <input type="text" name="username" id="username" placeholder="Input Username...">
+                        <br>
+                        <label style="color: white;">Password</label>
+                        <input type="text" name="password" id="password" placeholder="Input Password...">
+                        <br>
+                        <label style="color: white;">Email</label>
+                        <input type="text" name="email" id="email" placeholder="Input Email...">
+                        <br>
+                    </div>
+                    <div class="column">
+                        <label style="color: white;">Fullname</label>
+                        <input type="text" name="fullname" id="fullname" placeholder="Input Full Name...">
+                        <br>
+                        <label style="color: white;">Address</label>
+                        <input type="text" name="address" id="address" placeholder="Input Address...">
+                        <br>
+                        <label style="color: white;">Phonenumber</label>
+                        <input type="text" name="phonenumber" id="phonenumber" placeholder="Phone Number, no area code...">
+                        <br>
+                    </div>
+                </div>
+                <br>
+				<input type="submit">
             </form>
         </div>
 </div>
