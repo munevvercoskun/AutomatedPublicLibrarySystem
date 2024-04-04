@@ -6,8 +6,8 @@ from sqlalchemy import text
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from flask import Flask, render_template, request, session, redirect, url_for
-from database import engine, SessionLocal, User, Book, Reservation, Borrowing, Recommendation, DigitalMedia, DigitalBorrowing, CDs, DVDs, Magazines
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for
+from database import engine, SessionLocal, User, Book, Borrowing, CDs, DVDs, Magazines
 from sqlalchemy.orm import sessionmaker
 #import pymysql #CAN DELETE LATER: added this to install this library in my environment in order to get database import working (in case Mayuran's fix may not work for you) - Anthony
 import requests
@@ -19,17 +19,25 @@ Session = sessionmaker(bind=engine)
 
 @app.route('/')
 def index():
+    session = Session()
+    available_books = session.query(Book).all()
+    available_cds = session.query(CDs).all()
+    available_dvds = session.query(DVDs).all()
+    available_magazines = session.query(Magazines).all()
+    returned_items = session.query(Borrowing).filter(Borrowing.returned == True).all()
+
+
     if 'user_id' in session:
         user_id = session['user_id']
-        session = Session()
-        user = session.query(User).filter_by(user_id=user_id).first()
-        user_name = user.full_name  # Accessing the user's full name
         borrowed_items = session.query(Borrowing).filter_by(user_id=user_id).all()
         session.close()
-        return render_template("index.html", user_name=user_name, borrowed_items=borrowed_items)
+        return render_template("index.html", borrowed_items=borrowed_items, available_books=available_books,
+                               available_cds=available_cds, available_dvds=available_dvds,
+                               available_magazines=available_magazines, returned_items=returned_items)
     else:
-        # If the user is not logged in, redirect to the login page
-        return redirect(url_for('login'))
+        session.close()
+        return render_template("index.html", available_books=available_books, available_cds=available_cds,
+                               available_dvds=available_dvds, available_magazines=available_magazines, returned_items=returned_items)
 
 @app.route('/left-sidebar')
 def left_sidebar():
@@ -61,11 +69,12 @@ def get_user_data(username):
     with engine.connect() as conn:
         result = conn.execute(text("SELECT * FROM Users WHERE username =" + str(username)))
         return result
-@app.route('/login/submit')
+@app.route('/login/submit', methods = ['post'])
 def show_user():
-    data = request.args
-    #user_data = get_user_data(username)
-    return jsonify(data)
+    data = request.form
+    username=data['username']
+    user_data = get_user_data(username)
+    return jsonify(user_data)
 
 
 @app.route('/register')
@@ -94,7 +103,6 @@ def borrow_items():
 
 @app.route('/searchResults', methods=['POST'])
 def searchResults():
-    # Assuming you want to retrieve data from the database here
     # Create a session
     session = Session()
     
@@ -106,6 +114,11 @@ def searchResults():
     
     # Pass fetched data to the template
     return render_template("searchResults.html" , users=users)
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
