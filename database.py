@@ -1,15 +1,25 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
+import pyodbc
+import pymysql #added in case pymysql is not in the installed?
 
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://coe892:PublicLibrarySystem...@automatedpubliclibrarysystem.database.windows.net/AutomatedPublicLibrary"
+SQLALCHEMY_DATABASE_URL = '''mysql+pymysql://coe892:PublicLibrary...@automatedpubliclibrarysystem.database.windows.net/
+                             AutomatedPublicLibrary?charset=utf8mb4'''  # not used
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={}, echo=True)  # not used
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)  # not used
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={}, echo=True
-)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+AZURE_SQL_CONNECTION_STRING='''Driver={ODBC Driver 18 for SQL Server};
+                              Server=tcp:automatedpubliclibrarysystem.database.windows.net,1433;
+                              Database=AutomatedPublicLibrary;UID=coe892;PWD=PublicLibrary...;
+                              Encrypt=yes;TrustServerCertificate=no;
+                              Connection Timeout=30'''
+conn = pyodbc.connect(AZURE_SQL_CONNECTION_STRING)
+cursor = conn.cursor()
+
 
 Base = declarative_base()
 
