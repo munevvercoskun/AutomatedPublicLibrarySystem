@@ -52,7 +52,11 @@
 												<li><a href="return.html">Return Items</a></li>
 											</ul>
 										</nav>
-										<p>Welcome, {{ user_name }}</p>
+										{% if user_name %}
+        								    <p>Welcome, {{ user_name }}</p> <!-- Display username if logged in -->
+        								{% else %}
+        								    <a href="/login" class="button large icon solid fa-check-circle">Login</a>
+        								{% endif %}
 								</div>
 							</header>
 
