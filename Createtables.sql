@@ -21,19 +21,6 @@ CREATE TABLE Books (
     total_copies INT
 );
 
--- Borrowings Table
-CREATE TABLE Borrowings (
-    borrowing_id INT PRIMARY KEY,
-    user_id INT,
-    book_id INT,
-    returned BOOLEAN=True,
-    borrow_date DATE,
-    return_date DATE,
-    status VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (book_id) REFERENCES Books(book_id)
-);
-
 -- CDs Table
 CREATE TABLE CDs (
     cd_id INT PRIMARY KEY,
@@ -64,55 +51,38 @@ CREATE TABLE Magazines (
     total_copies INT
 );
 
--- BorrowedCDs Table
-CREATE TABLE BorrowedCDs (
-    borrow_id INT PRIMARY KEY,
+-- Borrowings Table
+CREATE TABLE Borrowings (
+    borrowing_id INT PRIMARY KEY,
     user_id INT,
-    cd_id INT,
+    book_id INT,
+    cd_id INT,  
+    dvd_id INT,  
+    magazine_id INT,  
+    returned BIT DEFAULT 1,
     borrow_date DATE,
     return_date DATE,
     status VARCHAR(50),
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (cd_id) REFERENCES CDs(cd_id)
+    FOREIGN KEY (book_id) REFERENCES Books(book_id),
+    FOREIGN KEY (cd_id) REFERENCES CDs(cd_id), 
+    FOREIGN KEY (dvd_id) REFERENCES DVDs(dvd_id),  
+    FOREIGN KEY (magazine_id) REFERENCES Magazines(magazine_id)  
 );
 
--- BorrowedDVDs Table
-CREATE TABLE BorrowedDVDs (
-    borrow_id INT PRIMARY KEY,
-    user_id INT,
-    dvd_id INT,
-    borrow_date DATE,
-    return_date DATE,
-    status VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (dvd_id) REFERENCES DVDs(dvd_id)
+-- Items Table
+CREATE TABLE Items (
+    item_id INT PRIMARY KEY,
+    title VARCHAR(255),
+    type ENUM('book', 'cd', 'dvd', 'magazine'),
+    available BIT DEFAULT 1,
 );
 
--- BorrowedMagazines Table
-CREATE TABLE BorrowedMagazines (
-    borrow_id INT PRIMARY KEY,
-    user_id INT,
-    magazine_id INT,
-    borrow_date DATE,
-    return_date DATE,
-    status VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (magazine_id) REFERENCES Magazines(magazine_id)
-);
-CREATE TABLE BorrowedItems (
-    borrow_id INT PRIMARY KEY,
-    user_id INT,
-    item_id INT,
-    borrow_date DATE,
-    return_date DATE,
-    status VARCHAR(50),
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    -- Add foreign key references to other item tables such as Books, CDs, DVDs, etc.
-);
+-- CartItems Table
 CREATE TABLE CartItems (
     cart_id INT PRIMARY KEY,
     user_id INT,
     item_id INT,
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    -- Add foreign key references to other item tables such as Books, CDs, DVDs, etc.
+    FOREIGN KEY (item_id) REFERENCES Items(item_id)
 );

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import Boolean, create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
@@ -34,9 +34,7 @@ class User(Base):
     address = Column(String(255))
     phone_number = Column(String(20))
 
-    reservations = relationship("Reservation", back_populates="user")
     borrowings = relationship("Borrowing", back_populates="user")
-    recommendations = relationship("Recommendation", back_populates="user")
 
 class Book(Base):
     __tablename__ = 'Books'
@@ -50,22 +48,26 @@ class Book(Base):
     available_copies = Column(Integer)
     total_copies = Column(Integer)
 
-    reservations = relationship("Reservation", back_populates="book")
     borrowings = relationship("Borrowing", back_populates="book")
-    recommendations = relationship("Recommendation", back_populates="book")
-
 class Borrowing(Base):
     __tablename__ = 'Borrowings'
 
     borrowing_id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('Users.user_id'))
     book_id = Column(Integer, ForeignKey('Books.book_id'))
+    cd_id = Column(Integer, ForeignKey('CDs.cd_id'))  # Relationship with CDs
+    dvd_id = Column(Integer, ForeignKey('DVDs.dvd_id'))  # Relationship with DVDs
+    magazine_id = Column(Integer, ForeignKey('Magazines.magazine_id'))  # Relationship with Magazines
+    returned = Column(Boolean, default=True)
     borrow_date = Column(Date)
     return_date = Column(Date)
     status = Column(String(50))
 
     user = relationship("User", back_populates="borrowings")
     book = relationship("Book", back_populates="borrowings")
+    cd = relationship("CDs")  # Relationship with CDs
+    dvd = relationship("DVDs")  # Relationship with DVDs
+    magazine = relationship("Magazines")  # Relationship with Magazines
 
 class CDs(Base):
     __tablename__ = 'CDs'
