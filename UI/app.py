@@ -89,10 +89,40 @@ def show_user():
                         FROM Users
                         WHERE username = '{username}'
                       '''.format(username=username)
+    SQL_Books_Query = '''
+                        SELECT *
+                        FROM Items
+                        WHERE type = 'book'
+                      '''
+    SQL_CDs_Query = '''
+                        SELECT *
+                        FROM Items
+                        WHERE type = 'cd'
+                      '''
+    SQL_DVDs_Query = '''
+                        SELECT *
+                        FROM Items
+                        WHERE type = 'dvd'
+                      '''
+    SQL_Magazines_Query = '''
+                        SELECT *
+                        FROM Items
+                        WHERE type = 'magazine'
+                      '''
     result = cursor.execute(SQL_Login_Query)
     string_result = convertTuple(result)
+
+    cursor.execute(SQL_Books_Query)
+    books = cursor.fetchall()
+    cursor.execute(SQL_CDs_Query)
+    cds = cursor.fetchall()
+    cursor.execute(SQL_DVDs_Query)
+    dvds = cursor.fetchall()
+    cursor.execute(SQL_Magazines_Query)
+    magazines = cursor.fetchall()
+
     if string_result == password:
-        return render_template('login.html') # TODO: figure out what to do on successful login (maybe just go back to an index.html copy that has buttons for borrow)
+        return render_template('login_index.html', user_name=username, books=books, cds=cds, dvds=dvds, magazines=magazines) #redirect user to index page that contains library information
     else:
         return render_template('login_failed.html')
 
