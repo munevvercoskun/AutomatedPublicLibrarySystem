@@ -93,21 +93,25 @@ def show_user():
                         SELECT *
                         FROM Items
                         WHERE type = 'book'
+                        AND available = 1
                       '''
     SQL_CDs_Query = '''
                         SELECT *
                         FROM Items
                         WHERE type = 'cd'
+                        AND available = 1
                       '''
     SQL_DVDs_Query = '''
                         SELECT *
                         FROM Items
                         WHERE type = 'dvd'
+                        AND available = 1
                       '''
     SQL_Magazines_Query = '''
                         SELECT *
                         FROM Items
                         WHERE type = 'magazine'
+                        AND available = 1
                       '''
     result = cursor.execute(SQL_Login_Query)
     string_result = convertTuple(result)
