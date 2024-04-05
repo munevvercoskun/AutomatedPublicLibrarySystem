@@ -19,6 +19,7 @@ app = Flask(__name__)
 app.secret_key = 'coe892CloudComputing'
 Session = sessionmaker(bind=engine)
 
+
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -92,7 +93,7 @@ def show_user():
     result = cursor.execute(SQL_Login_Query)
     string_result = convertTuple(result)
     if string_result == password:
-        return render_template('login.html') # TODO: figure out what to do on successful login (maybe just go back to an index.html copy that has buttons for borrow)
+        return render_template('user.html', user_name=username) # TODO: figure out what to do on successful login (maybe just go back to an index.html copy that has buttons for borrow)
     else:
         return render_template('login_failed.html')
 
@@ -171,6 +172,14 @@ def search():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
+
+@app.route('/user')
+def user():
+    if "user" in session:
+        user = session["user"]
+        return render_template("user.html", user=user)
+    else:
+        return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

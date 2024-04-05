@@ -11,6 +11,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="../static/assets/css/main.css" />
+		<link rel="stylesheet" href="../static/assets/css/fontawesome-all.min.css" />
 	</head>
 	<body class="homepage is-preload">
 		<div id="page-wrapper">
@@ -52,12 +53,8 @@
 												<li><a href="return.html">Return Items</a></li>
 											</ul>
 										</nav>
-										{% if user_name %}
-        								    <p>Welcome, {{ user_name }}</p> <!-- Display username if logged in -->
-        								{% else %}
-											<!-- Creates login button again in header - Mayuran -->
-        								    <!--<a href="/login" class="button large icon solid fa-check-circle">Login</a>-->
-        								{% endif %}
+										{% block NameDisplay %}
+										{% endblock %}
 								</div>
 							</header>
 
@@ -128,7 +125,7 @@
 
 										
 											<section class="box article-list">
-												<h2 class="icon fa-file-alt">Available Items</h2>
+												<h2 class="icon fa-check-circle">Available Books</h2>
 												<div class="row">
 													{% for book in available_books %}
 													<div class="col-6">
@@ -142,7 +139,7 @@
 											</section>
 											<!-- CDs -->
 											<section class="box article-list">
-												<h2 class="icon fa-file-alt">Available CDs</h2>
+												<h2 class="icon fa-check-circle">Available CDs</h2>
 												<div class="row">
 													{% for cd in available_cds %}
 													<div class="col-6">
@@ -157,7 +154,7 @@
 		
 											<!-- DVDs -->
 											<section class="box article-list">
-												<h2 class="icon fa-file-alt">Available DVDs</h2>
+												<h2 class="icon fa-check-circle">Available DVDs</h2>
 												<div class="row">
 													{% for dvd in available_dvds %}
 													<div class="col-6">
@@ -172,7 +169,7 @@
 		
 											<!-- Magazines -->
 											<section class="box article-list">
-												<h2 class="icon fa-file-alt">Available Magazines</h2>
+												<h2 class="icon fa-check-circle">Available Magazines</h2>
 												<div class="row">
 													{% for magazine in available_magazines %}
 													<div class="col-6">
@@ -184,18 +181,6 @@
 													{% endfor %}
 												</div>
 											</section>
-											
-											<section class="box article-list">
-												<h2 class="icon fa-file-alt">Returned Items</h2>
-												<div class="row">
-													{% for item in returned_items %}
-													<div class="col-6">
-														<h3>{{ item.title }}</h3>
-														<p>Returned on: {{ item.return_date }}</p>
-													</div>
-													{% endfor %}
-												</div>
-											</section>	
 									</div>
 									<div class="col-4 col-12-medium">
 
