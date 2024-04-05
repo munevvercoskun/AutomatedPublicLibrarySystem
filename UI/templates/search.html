@@ -25,22 +25,26 @@
     </style>
 </head>
 
+
 <body>
-    <div id="header-wrapper">
-        <h1 style="color: white;">Library Search</h1>
-        <div id="searchContainer">
-            <form method="POST" action="{{url_for('searchResults')}}">
-                <input type="text" id="searchQuery" placeholder="Search for books, authors, ISBN...">
-            </form>
+    <div>
+        {% include 'Banner.html' %}
+        <div>
+            <h1 style="color: white;">Library Search</h1>
+            <div id="searchContainer">
+                <form method="POST" action="{{url_for('searchResults')}}">
+                    <input type="text" name="searchQuery" id="searchQuery" placeholder="Search for books, authors, ISBN...">
+                </form>
+            </div>
+            <div id="results"></div>
         </div>
-        <div id="results"></div>
     </div>
-
-
     <div class="content">
         {% block content %}
         {% endblock %}
     </div>
+    {% include 'Footer.html' %}
 </body>
+
 
 </html>

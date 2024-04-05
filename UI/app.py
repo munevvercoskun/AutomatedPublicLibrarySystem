@@ -1,6 +1,7 @@
 # for some reason database import on line 7 wasnt working, added these to fix -Mayuran
 import sys
 import os
+import pandas as pd
 
 from sqlalchemy import text
 import pymssql
@@ -20,35 +21,32 @@ Session = sessionmaker(bind=engine)
 
 @app.route('/')
 def index():
-    session = Session()
-    available_books = session.query(Book).all()
-    available_cds = session.query(CDs).all()
-    available_dvds = session.query(DVDs).all()
-    available_magazines = session.query(Magazines).all()
-    returned_items = session.query(Borrowing).filter(Borrowing.returned == 1).all()
+    return render_template("index.html")
+    # session = Session()
+    # available_books = session.query(Book).all()
+    # available_cds = session.query(CDs).all()
+    # available_dvds = session.query(DVDs).all()
+    # available_magazines = session.query(Magazines).all()
+    # returned_items = session.query(Borrowing).filter(Borrowing.returned == 1).all()
 
 
-    if 'user_id' in session:
-        user_id = session['user_id']
-        user = session.query(User).filter_by(user_id=user_id).first()  # Assuming you have a User model
-        user_name = user.username   
-        session.close()
-        return render_template("index.html", user_name=user_name, available_books=available_books,
-                               available_cds=available_cds, available_dvds=available_dvds,
-                               available_magazines=available_magazines, returned_items=returned_items)
-    else:
-        user_name=None
-        session.close()
-        return render_template("index.html", available_books=available_books, available_cds=available_cds,
-                               available_dvds=available_dvds, available_magazines=available_magazines, returned_items=returned_items)
+    # if 'user_id' in session:
+    #     user_id = session['user_id']
+    #     user = session.query(User).filter_by(user_id=user_id).first()  # Assuming you have a User model
+    #     user_name = user.username   
+    #     session.close()
+    #     return render_template("index.html", user_name=user_name, available_books=available_books,
+    #                            available_cds=available_cds, available_dvds=available_dvds,
+    #                            available_magazines=available_magazines, returned_items=returned_items)
+    # else:
+    #     user_name=None
+    #     session.close()
+    #     return render_template("index.html", available_books=available_books, available_cds=available_cds,
+    #                            available_dvds=available_dvds, available_magazines=available_magazines, returned_items=returned_items)
 
 @app.route('/left-sidebar')
 def left_sidebar():
     return render_template("left-sidebar.html")
-
-@app.route('/search')
-def search():
-    return render_template("search.html")
 
 @app.route('/login', methods=['GET', "POST"])
 def login():
@@ -152,18 +150,22 @@ def borrow_items():
 
 @app.route('/searchResults', methods=['POST'])
 def searchResults():
-    # Assuming you want to retrieve data from the database here
-    # Create a session
-    session = Session()
-    
-    # Example: Fetch all users from the Users table
-    users = session.query(User).all()
-    
-    # Close the session
-    session.close()
-    
-    # Pass fetched data to the template
-    return render_template("searchResults.html" , users=users)
+    searchQuery = request.form.get('searchQuery')
+    SQL_Search_Query = '''
+                        SELECT *
+                        FROM Items
+                        WHERE title = '{searchQuery}'
+                        OR type = '{searchQuery}'
+                      '''.format(searchQuery=searchQuery)
+    print(SQL_Search_Query)
+    cursor.execute(SQL_Search_Query)
+    myresult = cursor.fetchall()
+    return render_template("searchResults.html", items=myresult, searchQuery=searchQuery)
+
+
+@app.route('/search')
+def search():
+    return render_template("search.html")
 
 @app.route('/logout')
 def logout():

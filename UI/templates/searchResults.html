@@ -1,33 +1,49 @@
-{%extends 'search.html' %}
+{% extends 'search.html' %}
 
 {% block content %}
+<style>
+    #resultsTable {
+        width: 100%; /* Ensure table width is full */
+        text-align: center; /* Center align text */
+    }
+    #resultsTable th, #resultsTable td {
+        text-align: center; /* Center text for each cell */
+    }
+    #resultsTable form {
+        display: inline; /* Keep forms inline */
+    }
+</style>
+
 <br/>
 <h2>Search Results</h2>
 <table id="resultsTable">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>ISBN</th>
-            <th>Year</th>
+            <th><h1>Title</h1></th>
+            <th><h1>Content Type</h1></th>
+            <th><h1>Availability</h1></th>
+            <th></th> 
         </tr>
     </thead>
     <tbody>
-        <!-- Populate this area dynamically with search results -->
+        {% for item in items %}
         <tr>
-            <td>Book 1</td>
-            <td>Author 1</td>
-            <td>ISBN 1</td>
-            <td>Year 1</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.available == 1 }}</td>
+            <td>
+                {% if item.available == 1 %}
+                    <!-- Redirect to Borrow page, modify once borrow function is complete -->
+                    <form action="/borrow" method="post"> 
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <button type="submit">Borrow</button>
+                    </form>
+                {% else %}
+                    Item unavailable
+                {% endif %}
+            </td>
         </tr>
-        <tr>
-            <td>Book 2</td>
-            <td>Author 2</td>
-            <td>ISBN 2</td>
-            <td>Year 2</td>
-        </tr>
-        <!-- Add more rows for additional search results -->
+        {% endfor %}
     </tbody>
 </table>
 {% endblock %}
-
