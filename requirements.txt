@@ -1,0 +1,9 @@
+pyodbc
+azure-mgmt-resource
+azure-identity
+sqlalchemy
+sqlalchemy.orm
+flask
+pyodbc
+pymysql
+pymssql
