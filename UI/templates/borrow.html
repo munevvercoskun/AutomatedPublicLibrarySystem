@@ -62,23 +62,27 @@
         .borrow-btn:hover {
             background-color: #0056b3;
         }
+        .item-list p {
+            color: white;
+        }
     </style>
 </head>
 <body>
 {% include 'Banner.html' %}
 <div class="container">
-    <h1>Borrow Items</h1>
+    <h1 style="color: white">Borrow Items</h1>
     
     <!-- Display Available Items -->
-    <h2>Available Items</h2>
+    <h2 style="color: white">Available Items</h2>
     <form action="/borrow" method="post">
-        {% if items %}
+        {% if available_items %}
             <ul class="item-list">
-                {% for item in items %}
+                {% for item in available_items %}
                     <li>
                         <label>
-                            <input type="checkbox" name="item_id" value="{{ item.id }}"> 
-                            {{ item.title }} - {{ item.type }} - {{ item.available_copies }} available copies
+                            <span style="color: white">{{ item.title }}</span> - <span style="color: white">{{ item.type }}</span> - <span style="color: white">{{ item.available_copies }} available copies</span>
+                            <button type="button" class="borrow-btn" onclick="selectItem({{ item.id }})">Select</button>
+                            <input type="hidden" name="selected_items[]" id="item_{{ item.id }}" value="0">                            
                         </label>
                     </li>
                 {% endfor %}
@@ -88,6 +92,51 @@
             <p>No items available for borrowing</p>
         {% endif %}
     </form>
+    <style>
+        .white-text {
+            color: white;
+        }
+    
+        .borrow-btn {
+            padding: 5px 10px;
+            background-color: #333; /* Darker color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px; /* Smaller font size */
+        }
+    
+        .borrow-btn-small {
+            padding: 5px 10px;
+            background-color: #333; /* Darker color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px; /* Smaller font size */
+        }
+    
+        .borrow-btn:hover, .borrow-btn-small:hover {
+            background-color: #555; /* Darker hover color */
+        }
+    </style>
+    <script>
+        function selectItem(itemId, event) {
+            // Toggle the selection state
+            var itemInput = document.getElementById("item_" + itemId);
+            if (itemInput.value == "0") {
+                itemInput.value = "1";
+                event.target.style.backgroundColor = "#0056b3";
+                event.target.innerText = "Selected";
+            } else {
+                itemInput.value = "0";
+                // Optionally revert the button appearance
+                event.target.style.backgroundColor = "#007bff";
+                event.target.innerText = "Select";
+            }
+        }
+    </script>
 </div>
 {% include 'Footer.html' %}
 </body>

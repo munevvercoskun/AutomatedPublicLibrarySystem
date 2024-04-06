@@ -224,6 +224,7 @@ def return_items():
 
 @app.route('/borrow', methods=['GET', 'POST'])
 def borrow_items():
+    
     if request.method == 'POST':
         selected_item_ids = request.form.getlist('item_id')
 
