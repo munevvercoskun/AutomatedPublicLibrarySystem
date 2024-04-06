@@ -260,6 +260,20 @@ def borrow_items():
 def search():
     return render_template("search.html")
 
+@app.route('/searchResults', methods=['POST'])
+def searchResults():
+    searchQuery = request.form.get('searchQuery')
+    SQL_Search_Query = '''
+                        SELECT *
+                        FROM Items
+                        WHERE title = '{searchQuery}'
+                        OR type = '{searchQuery}'
+                      '''.format(searchQuery=searchQuery)
+    print(SQL_Search_Query)
+    cursor.execute(SQL_Search_Query)
+    myresult = cursor.fetchall()
+    return render_template("searchResults.html", items=myresult, searchQuery=searchQuery)
+
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)

@@ -31,16 +31,6 @@
             <td>{{ item.title }}</td>
             <td>{{ item.type }}</td>
             <td>{{ item.available == 1 }}</td>
-            <td>
-                {% if item.available == 1 %}
-                    <!-- Redirect to Borrow page, modify once borrow function is complete -->
-                    <form action="/borrow" method="post"> 
-                        <input type="hidden" name="item_id" value="{{ item.id }}">
-                        <button type="submit">Borrow</button>
-                    </form>
-                {% else %}
-                    Item unavailable
-                {% endif %}
             </td>
         </tr>
         {% endfor %}
