@@ -29,20 +29,18 @@
 									<!-- Nav -->
 										<nav id="nav">
 											<ul>
-												<li class="current_page_item"><a href="#">Home</a></li>
+												<li class="current_page_item"><a href="/">Home</a></li>
 												<li>
 													<a href="#">Dropdown</a>
-													<ul>
-														<li><a href="/search">Search</a></li>
-														<li>
-															<a href="#">Borrow</a>
-														</li>
-														<li><a href="#">Return</a></li>
-													</ul>
-												</li>
-												<li><a href="/search">Search</a></li>
-												<li><a href="borrow.html">Borrow Items</a></li>
-												<li><a href="return.html">Return Items</a></li>
+        										    <ul>
+        										        <li><a href="{{ url_for('search') }}">Search</a></li>
+        										        <li><a href="{{ url_for('borrow_items') }}">Borrow</a></li>
+        										        <li><a href="{{ url_for('return_items') }}">Return</a></li>
+        										    </ul>
+        										</li>
+        										<li><a href="{{ url_for('search') }}">Search</a></li>
+        										<li><a href="{{ url_for('borrow_items') }}">Borrow Items</a></li>
+        										<li><a href="{{ url_for('return_items') }}">Return Items</a></li>
 											</ul>
 										</nav>
 										{% if user_name %}
@@ -56,6 +54,10 @@
 
 						<!-- Banner -->
 							<div id="banner">
+								{% if user_name %}
+								    <p>Welcome, {{ user_name }}</p> 
+								{% else %}
+								{% endif %}
 								<h2><strong>APLS:</strong> Automated Public Library System</h2>
 								<a href="/login" class="button large icon solid fa-check-circle">Logout</a>
 							</div>

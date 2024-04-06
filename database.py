@@ -1,10 +1,11 @@
-from sqlalchemy import Boolean, create_engine
+from sqlalchemy import Boolean, Enum, create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.orm import relationship
 import pyodbc
 import pymysql #added in case pymysql is not in the installed?
+
 
 SQLALCHEMY_DATABASE_URL = '''mysql+pymysql://coe892:PublicLibrary...@automatedpubliclibrarysystem.database.windows.net/
                              AutomatedPublicLibrary?charset=utf8mb4'''  # not used
@@ -20,6 +21,8 @@ AZURE_SQL_CONNECTION_STRING='''Driver={ODBC Driver 18 for SQL Server};
 conn = pyodbc.connect(AZURE_SQL_CONNECTION_STRING)
 cursor = conn.cursor()
 # user cursor.execute("SQL Query") to query the database
+
+
 
 Base = declarative_base()
 
@@ -98,3 +101,14 @@ class Magazines(Base):
     publication_year = Column(Integer)
     available_copies = Column(Integer)
     total_copies = Column(Integer)
+
+class Item(Base):
+    __tablename__ = 'Items'
+
+    item_id = Column(Integer, primary_key=True)
+    title = Column(String(255))
+    type = Column(Enum('book', 'cd', 'dvd', 'magazine'))
+    available = Column(Boolean, default=True)
+
+    # Define the relationship with Borrowings
+    borrowings = relationship("Borrowing", back_populates="item")
