@@ -122,7 +122,7 @@
         }
     </style>
     <script>
-        function selectItem(itemId) {
+        function selectItem(itemId, event) {
             // Toggle the selection state
             var itemInput = document.getElementById("item_" + itemId);
             if (itemInput.value == "0") {
