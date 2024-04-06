@@ -21,8 +21,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = '''mysql+pymysql://coe892:PublicLibrary.
                              AutomatedPublicLibrary?charset=utf8mb4'''
 Session = sessionmaker(bind=engine)
 
-
-
 @app.route('/')
 def index():
     return render_template("index.html")
@@ -61,6 +59,7 @@ def convertTuple(tup):
     for item in tup:
         string = string + str(item[0])
     return string
+
 
 @app.route('/login/submit', methods=['post'])
 def show_user():
@@ -117,6 +116,10 @@ def show_user():
 @app.route('/register')
 def register():
     return render_template("register.html")
+
+@app.route('/login_index')
+def login_index():
+    return render_template('login_index.html')
 
 
 def get_max_user_id():
