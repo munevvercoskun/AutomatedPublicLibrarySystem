@@ -141,8 +141,8 @@ def submit_register():
                             INSERT INTO Users (user_id, username, password, email, full_name, address, phone_number)
                             VALUES ('{user_id}', '{username}', '{password}', '{email}', '{fullname}', '{address}', '{phonenumber}')
                          '''
-    return SQL_Register_Query
-    #cursor.execute(SQL_Register_Query)
+    cursor.execute(SQL_Register_Query)
+    return render_template('login.html')
 
 
 @app.route('/return', methods=['GET', 'POST'])
@@ -260,6 +260,20 @@ def borrow_items():
 @app.route('/search')
 def search():
     return render_template("search.html")
+
+@app.route('/searchResults', methods=['POST'])
+def searchResults():
+    searchQuery = request.form.get('searchQuery')
+    SQL_Search_Query = '''
+                        SELECT *
+                        FROM Items
+                        WHERE title = '{searchQuery}'
+                        OR type = '{searchQuery}'
+                      '''.format(searchQuery=searchQuery)
+    print(SQL_Search_Query)
+    cursor.execute(SQL_Search_Query)
+    myresult = cursor.fetchall()
+    return render_template("searchResults.html", items=myresult, searchQuery=searchQuery)
 
 @app.route('/logout')
 def logout():
