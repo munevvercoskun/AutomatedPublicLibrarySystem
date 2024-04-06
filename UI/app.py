@@ -158,8 +158,8 @@ def submit_register():
                             INSERT INTO Users (user_id, username, password, email, full_name, address, phone_number)
                             VALUES ('{user_id}', '{username}', '{password}', '{email}', '{fullname}', '{address}', '{phonenumber}')
                          '''
-    return SQL_Register_Query
-    #cursor.execute(SQL_Register_Query)
+    cursor.execute(SQL_Register_Query)
+    return render_template('login.html')
 
 
 
