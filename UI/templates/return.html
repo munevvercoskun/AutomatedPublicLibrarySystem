@@ -3,25 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Return Items</title>
+    <title>Library Search</title>
+    <link rel="stylesheet" href="../static/assets/css/main.css" />
+    <style>
+        #header-wrapper {
+            position: relative;
+            padding: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            vertical-align: middle;
+            width: 100%;
+            height: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #loginContainer {
+            position: relative;
+            top: 25%;
+            margin-top: 20px;
+        }
+
+        #username {
+            margin-right: 10px;
+            width: 100%;
+        }
+        #password {
+            margin-right: 10px;
+            width: 100%;
+        }
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .borrowed-items {
+            margin-top: 20px;
+        }
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .item-list li {
+            margin-bottom: 10px;
+        }
+        .return-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .return-btn:hover {
+            background-color: #0056b3;
+        }
+        .return-message {
+            margin-top: 20px;
+            color: #28a745;
+        }
+    </style>
 </head>
 <body>
-    <h1>Return Items</h1>
-    
+{% include 'Banner.html' %}
+<div class="container">
+    <header>
+        <h1>Return Items</h1>
+    </header>
     <!-- Display Borrowed Items -->
-    <h2>Your Borrowed Items</h2>
-    <form action="/return" method="post">
-        {% for item in borrowed_items %}
-            <label>
-                <input type="checkbox" name="item_id" value="{{ item.id }}"> {{ item.title }} - {{ item.type }}
-            </label><br>
-        {% endfor %}
-        
-        <button type="submit">Return Selected Items</button>
-    </form>
+    <section class="borrowed-items">
+        <h2>Your Borrowed Items</h2>
+        {% if borrowed_items %}
+            <form action="/return" method="post">
+                <ul class="item-list">
+                    {% for item in borrowed_items %}
+                        <li>
+                            <label>
+                                <input type="checkbox" name="item_id" value="{{ item.id }}"> 
+                                <span>{{ item.title }}</span> - <span>{{ item.type }}</span>
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+                
+                <button type="submit" class="return-btn">Return Selected Items</button>
+            </form>
+        {% else %}
+            <p>You have no borrowed items</p>
+        {% endif %}
+    </section>
     
     {% if return_message %}
-        <p>{{ return_message }}</p>
+        <p class="return-message">{{ return_message }}</p>
     {% endif %}
+</div>
+{% include 'Footer.html' %}
 </body>
 </html>

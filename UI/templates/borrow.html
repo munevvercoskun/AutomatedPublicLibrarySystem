@@ -3,86 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borrow Items</title>
+    <title>Library Search</title>
+    <link rel="stylesheet" href="../static/assets/css/main.css" />
+    <style>
+        #header-wrapper {
+            position: relative;
+            padding: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            vertical-align: middle;
+            width: 100%;
+            height: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #loginContainer {
+            position: relative;
+            top: 25%;
+            margin-top: 20px;
+        }
+
+        #username {
+            margin-right: 10px;
+            width: 100%;
+        }
+        #password {
+            margin-right: 10px;
+            width: 100%;
+        }
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .borrow-items {
+            margin-top: 20px;
+        }
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .item-list li {
+            margin-bottom: 10px;
+        }
+        .borrow-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .borrow-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+{% include 'Banner.html' %}
+<div class="container">
     <h1>Borrow Items</h1>
     
-    <!-- Display Available Books -->
-    <h2>Available Books</h2>
-    <ul>
-        {% for book in books %}
-            <li>{{ book.title }} by {{ book.author }} - {{ book.available_copies }} available copies 
-                <button type="button" onclick="addToCart('{{ book.id }}')">Add to Cart</button>
-            </li>
-        {% endfor %}
-    </ul>
-    
-    <!-- Display Available CDs -->
-    <h2>Available CDs</h2>
-    <ul>
-        {% for cd in cds %}
-            <li>{{ cd.title }} - {{ cd.available_copies }} available copies 
-                <button type="button" onclick="addToCart('{{ cd.id }}')">Add to Cart</button>
-            </li>
-        {% endfor %}
-    </ul>
-
-    <!-- Display Available Magazines -->
-    <h2>Available Magazines</h2>
-    <ul>
-        {% for magazine in magazines %}
-            <li>{{ magazine.title }} - {{ magazine.available_copies }} available copies 
-                <button type="button" onclick="addToCart('{{ magazine.id }}')">Add to Cart</button>
-            </li>
-        {% endfor %}
-    </ul>
-
-    <!-- Display Available DVDs -->
-    <h2>Available DVDs</h2>
-    <ul>
-        {% for dvd in dvds %}
-            <li>{{ dvd.title }} - {{ dvd.available_copies }} available copies 
-                <button type="button" onclick="addToCart('{{ dvd.id }}')">Add to Cart</button>
-            </li>
-        {% endfor %}
-    </ul>
-
-    <h2>Cart</h2>
-    <ul id="cart">
-        
-    </ul>
-    <button onclick="checkout()">Checkout</button>
-
-    <script>
-        var cart = [];
-
-        function addToCart(itemId) {
-            // Check if item is already in cart
-            if (cart.includes(itemId)) {
-                alert("Item is already in cart.");
-            } else {
-                // Check if cart limit reached
-                if (cart.length < 5) {
-                    cart.push(itemId);
-                    alert("Item added to cart.");
-                } else {
-                    alert("You cannot borrow more than 5 items.");
-                }
-            }
-        }
-
-        function checkout() {
-            // Display cart items
-            var cartItems = "";
-            for (var i = 0; i < cart.length; i++) {
-                cartItems += cart[i] + "<br>";
-            }
-            document.getElementById("cart").innerHTML = cartItems;
-
-            // Display checkout message
-            alert("Enjoy your borrowed items. Thank you for checking in your items Online.");
-        }
-    </script>
+    <!-- Display Available Items -->
+    <h2>Available Items</h2>
+    <form action="/borrow" method="post">
+        {% if items %}
+            <ul class="item-list">
+                {% for item in items %}
+                    <li>
+                        <label>
+                            <input type="checkbox" name="item_id" value="{{ item.id }}"> 
+                            {{ item.title }} - {{ item.type }} - {{ item.available_copies }} available copies
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+            <button type="submit" class="borrow-btn">Borrow Selected Items</button>
+        {% else %}
+            <p>No items available for borrowing</p>
+        {% endif %}
+    </form>
+</div>
+{% include 'Footer.html' %}
 </body>
 </html>
