@@ -72,11 +72,11 @@
 {% include 'Banner.html' %}
 <div class="container">
     <header>
-        <h1>Return Items</h1>
+        <h1 style="color: white">Return Items</h1>
     </header>
     <!-- Display Borrowed Items -->
     <section class="borrowed-items">
-        <h2>Your Borrowed Items</h2>
+        <h2 style="color: white">Your Borrowed Items</h2>
         {% if borrowed_items %}
             <form action="/return" method="post">
                 <ul class="item-list">
@@ -84,7 +84,7 @@
                         <li>
                             <label>
                                 <input type="checkbox" name="item_id" value="{{ item.id }}"> 
-                                <span>{{ item.title }}</span> - <span>{{ item.type }}</span>
+                                <span style="color: white">{{ item.title }}</span> - <span style="color: white">{{ item.type }}</span>
                             </label>
                         </li>
                     {% endfor %}
