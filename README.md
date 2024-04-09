@@ -18,7 +18,6 @@ Hosted Link: https://automatedpubliclibrary.azurewebsites.net/
 - SQLAlchemy
 - Python
 - SSMS(SQL Server Management System)
-- 
 
 **Project Description**
 
