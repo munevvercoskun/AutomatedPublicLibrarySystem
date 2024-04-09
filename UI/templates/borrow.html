@@ -80,9 +80,9 @@
                 {% for item in available_items %}
                     <li>
                         <label>
-                            <span style="color: white">{{ item.title }}</span> - <span style="color: white">{{ item.type }}</span> - <span style="color: white">{{ item.available_copies }} available copies</span>
-                            <button type="button" class="borrow-btn" onclick="selectItem(item.id )">Select</button>
-                            <input type="hidden" name="selected_items[]" id="item_{{ item.id }}" value="0">                            
+                            <span style="color: white">{{ item.title }}</span> - <span style="color: white">{{ item.type }}</span> 
+                            <button type="button" class="borrow-btn" onclick="selectItem(this)">Select</button>
+                            <input type="hidden" name="selected_items[]" class="item-id" value="{{ item.id }}">
                         </label>
                     </li>
                 {% endfor %}
@@ -122,20 +122,28 @@
         }
     </style>
     <script>
-        function selectItem(itemId, event) {
-            // Toggle the selection state
-            var itemInput = document.getElementById("item_" + itemId);
+        function selectItem(button) {
+            // Get the adjacent hidden input field
+            
+            var itemInput = button.nextElementSibling;
+            // Retrieve the item ID from the hidden input field value
+            var itemId = itemInput.value;
+
+            console.log("Item selected:", itemId);
+
+            // Change button appearance when selected
             if (itemInput.value == "0") {
                 itemInput.value = "1";
-                event.target.style.backgroundColor = "#0056b3";
-                event.target.innerText = "Selected";
+                button.innerText = "Selected";
+                button.style.backgroundColor = "#0056b3";
             } else {
                 itemInput.value = "0";
-                // Optionally revert the button appearance
-                event.target.style.backgroundColor = "#007bff";
-                event.target.innerText = "Select";
+                button.innerText = "Select";
+                button.style.backgroundColor = "#333";
             }
         }
+
+
     </script>
 </div>
 {% include 'Footer.html' %}
